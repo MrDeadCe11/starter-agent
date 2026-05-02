@@ -13,6 +13,20 @@ Bootstrap repo for building AI agent against local Ollama using JavaScript `olla
 npm install
 ```
 
+## Environment
+
+Copy env template:
+
+```bash
+cp .env.example .env
+```
+
+Defaults:
+
+- `OLLAMA_HOST=http://127.0.0.1:11434`
+- `OLLAMA_MODEL=llama3.2:3b`
+- `MAX_TOOL_ROUNDS=3`
+
 ## Pull model (example)
 
 ```bash
@@ -25,13 +39,27 @@ ollama pull llama3.2:3b
 npm start -- "Write haiku about local LLMs"
 ```
 
-Optional model override:
+Tool smoke test:
 
 ```bash
-OLLAMA_MODEL=llama3.2:3b npm start -- "Explain retrieval-augmented generation"
+npm start -- "/time"
 ```
 
-## Notes
+Run tests:
 
-- Default Ollama host is `http://127.0.0.1:11434`.
-- Change host with `OLLAMA_HOST` if needed.
+```bash
+npm test
+```
+
+## Project layout
+
+```text
+src/
+  agent/      # agent loop + Ollama call
+  config/     # env-based config loader
+  lib/        # shared helpers (logger)
+  memory/     # in-memory session storage
+  prompts/    # system prompts/templates
+  tools/      # tool registry + tool modules
+tests/        # node:test tests
+```
