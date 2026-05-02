@@ -1,0 +1,22 @@
+{
+  "name": "starter-agent",
+  "version": "1.0.0",
+  "description": "Starter repo for a local Ollama-powered AI agent in JavaScript",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "chat": "node src/index.js"
+  },
+  "keywords": [
+    "ai",
+    "agent",
+    "ollama",
+    "llm"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ollama": "^0.6.3"
+  }
+}
