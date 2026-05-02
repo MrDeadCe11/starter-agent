@@ -1,13 +1,14 @@
 {
   "name": "starter-agent",
   "version": "1.0.0",
-  "description": "Starter repo for a local Ollama-powered AI agent in JavaScript",
+  "description": "Starter repo for a local Ollama-powered AI agent in TypeScript",
   "type": "module",
-  "main": "src/index.js",
+  "main": "dist/index.js",
   "scripts": {
-    "start": "node src/index.js",
-    "chat": "node src/index.js",
-    "test": "node --test"
+    "build": "tsc -p tsconfig.json",
+    "start": "tsx src/index.ts",
+    "chat": "tsx src/index.ts",
+    "test": "node --import tsx --test tests/**/*.test.ts"
   },
   "keywords": [
     "ai",
@@ -20,5 +21,10 @@
   "dependencies": {
     "dotenv": "^17.4.2",
     "ollama": "^0.6.3"
+  },
+  "devDependencies": {
+    "@types/node": "^25.6.0",
+    "tsx": "^4.21.0",
+    "typescript": "^6.0.3"
   }
 }

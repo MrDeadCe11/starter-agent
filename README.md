@@ -1,6 +1,6 @@
 # starter-agent
 
-Bootstrap repo for building AI agent against local Ollama using JavaScript `ollama` client.
+Bootstrap repo for building AI agent against local Ollama using TypeScript and `ollama` client.
 
 ## Requirements
 
@@ -49,6 +49,12 @@ Run tests:
 
 ```bash
 npm test
+```
+
+Build:
+
+```bash
+npm run build
 ```
 
 ## Project layout

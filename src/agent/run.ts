@@ -1,10 +1,11 @@
 import ollama from "ollama";
+import type { AppConfig } from "../config/index.js";
 import { SYSTEM_PROMPT } from "../prompts/systemPrompt.js";
 import { createSessionMemory } from "../memory/sessionMemory.js";
 import { createToolsRegistry } from "../tools/index.js";
 import { logError, logInfo } from "../lib/logger.js";
 
-function maybeToolName(prompt) {
+function maybeToolName(prompt: string): string | null {
   const normalized = prompt.trim().toLowerCase();
   if (normalized === "/time" || normalized === "time") {
     return "time";
@@ -12,7 +13,12 @@ function maybeToolName(prompt) {
   return null;
 }
 
-export async function runAgent({ config, userPrompt }) {
+type RunAgentInput = {
+  config: AppConfig;
+  userPrompt: string;
+};
+
+export async function runAgent({ config, userPrompt }: RunAgentInput): Promise<void> {
   const memory = createSessionMemory();
   const tools = createToolsRegistry();
   const requestedTool = maybeToolName(userPrompt);
@@ -28,20 +34,27 @@ export async function runAgent({ config, userPrompt }) {
 
   try {
     const response = await ollama.chat({
-      host: config.ollamaHost,
       model: config.ollamaModel,
       messages: memory.all(),
     });
 
-    memory.add(response.message);
+    memory.add({
+      role: response.message.role,
+      content: response.message.content,
+    });
+
     logInfo(`Model: ${config.ollamaModel}`);
     console.log(response.message.content);
-  } catch (error) {
+  } catch (error: unknown) {
     logError("Ollama request failed.");
     logError(
       "Make sure local Ollama running and model pulled (example: ollama pull llama3.2:3b)."
     );
-    logError(error.message);
+    if (error instanceof Error) {
+      logError(error.message);
+    } else {
+      logError(String(error));
+    }
     process.exitCode = 1;
   }
 }
